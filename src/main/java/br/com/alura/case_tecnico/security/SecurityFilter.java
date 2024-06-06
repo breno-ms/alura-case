@@ -36,7 +36,6 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (login != null) {
             // TODO: criar exception personalizada
             User user = userRepository.findByEmail(login).orElseThrow(() -> new RuntimeException("User not found"));
-            System.out.println(user.getRole());
             var authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole().getRoleName()));
             var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(authentication);
