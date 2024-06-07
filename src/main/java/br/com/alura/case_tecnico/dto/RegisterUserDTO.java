@@ -1,8 +1,10 @@
 package br.com.alura.case_tecnico.dto;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 
-public record RegisterUserDTO(
+@Valid
+public record RegisterUserDTO (
         @NotBlank(message = "Username cannot be blank")
         @NotEmpty(message = "Username cannot be empty")
         @NotNull(message = "Username cannot be null")
@@ -19,7 +21,7 @@ public record RegisterUserDTO(
         @NotBlank(message = "Password cannot be blank")
         @NotEmpty(message = "Password cannot be empty")
         @NotNull(message = "Password cannot be null")
-        @Size(min = 6, max = 100, message = "Password must be between 6 and 100 characters")
+        @Size(min = 1, max = 100, message = "Password must be between 6 and 100 characters")
         String password,
 
         @NotBlank(message = "Role cannot be blank")

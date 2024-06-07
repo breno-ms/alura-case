@@ -65,10 +65,10 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid RegisterUserDTO body) {
-        Optional<User> user = this.userRepository.findByEmailAndUsername(body.email(), body.username());
+        Optional<User> user = this.userRepository.findByUsername(body.username());
 
         if (user.isPresent()) {
-            return new ResponseEntity<>("User already exists", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Username already exists", HttpStatus.BAD_REQUEST);
         }
 
         Integer roleId = ROLE_IDS.get(body.role());

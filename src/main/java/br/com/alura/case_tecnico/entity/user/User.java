@@ -3,17 +3,12 @@ package br.com.alura.case_tecnico.entity.user;
 import br.com.alura.case_tecnico.entity.role.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
