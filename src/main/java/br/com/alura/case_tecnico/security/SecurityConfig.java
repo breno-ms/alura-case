@@ -39,6 +39,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/course/createCourse").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/course/deactivateCourse/{courseCode}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/enrollment/createEnrollment").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/feedback/createFeedback").hasAnyRole("ADMIN", "STUDENT")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);

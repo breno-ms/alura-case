@@ -60,4 +60,10 @@ public class EnrollmentService {
         return !enrollmentRepository.existsByUserIdAndCourseCode(userId, courseCode);
     }
 
+    public Enrollment findById(Integer enrollmentId) throws Exception {
+        return this.enrollmentRepository
+                .findById(enrollmentId)
+                .orElseThrow(() -> new Exception("Enrollment not found"));
+    }
+
 }
