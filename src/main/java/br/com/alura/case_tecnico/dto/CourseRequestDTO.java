@@ -14,6 +14,7 @@ public record CourseRequestDTO (
         @NotEmpty(message = "Course code cannot be empty")
         @NotNull(message = "Course code cannot be null")
         @Size(min = 1, max = 10, message = "Course name between 1 and 10 characters")
+        @Pattern(regexp = "^[a-z]+(?:-[a-z]+)*$", message = "Invalid course code")
         String courseCode,
 
         @NotBlank(message = "Instructor name cannot be blank")
