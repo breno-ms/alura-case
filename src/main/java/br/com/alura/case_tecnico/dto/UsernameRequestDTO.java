@@ -1,8 +1,10 @@
 package br.com.alura.case_tecnico.dto;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 
-public record UsernameRequestDTO(
+@Valid
+public record UsernameRequestDTO (
         @NotBlank(message = "Username cannot be blank")
         @NotEmpty(message = "Username cannot be empty")
         @NotNull(message = "Username cannot be null")

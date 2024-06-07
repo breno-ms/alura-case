@@ -1,7 +1,9 @@
 package br.com.alura.case_tecnico.dto;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 
+@Valid
 public record LoginDTO (
         @NotBlank(message = "Email cannot be blank")
         @NotEmpty(message = "Email cannot be empty")

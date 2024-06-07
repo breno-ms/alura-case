@@ -35,6 +35,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/findByUsername").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/course/findAllOrByStatus").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/course/createCourse").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/course/deactivateCourse/{courseCode}").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);

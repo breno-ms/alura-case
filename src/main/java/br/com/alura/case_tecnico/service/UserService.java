@@ -14,7 +14,11 @@ import java.util.Optional;
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public List<UserResponseDTO> findAll() {
         List<User> users = this.userRepository.findAll();
@@ -28,6 +32,10 @@ public class UserService {
     public UserResponseDTO findByUsername(String username) throws Exception {
         User user = this.userRepository.findByUsername(username).orElseThrow(() -> new Exception("User not found"));
         return new UserResponseDTO(user.getUsername(), user.getEmail(), user.getRole().getRoleName());
+    }
+
+    public User findByEmailAndUsername(String email, String username) throws Exception {
+        return this.userRepository.findByEmailAndUsername(email, username).orElseThrow(() -> new Exception("User not found"));
     }
 
 }
