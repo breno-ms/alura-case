@@ -18,11 +18,11 @@ public class Enrollment {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private final User user;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "course_code", referencedColumnName = "code")
-    private final Course course;
+    private Course course;
 
     @Column(name = "enrollment_date")
     private LocalDate enrollmentDate;
@@ -31,6 +31,16 @@ public class Enrollment {
         this.user = user;
         this.course = course;
         this.enrollmentDate = LocalDate.now();
+    }
+
+    public Enrollment(Integer id, User user, Course course, LocalDate enrollmentDate) {
+        this.id = id;
+        this.user = user;
+        this.course = course;
+        this.enrollmentDate = enrollmentDate;
+    }
+
+    public Enrollment() {
     }
 
     @Override
