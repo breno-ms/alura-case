@@ -1,5 +1,6 @@
 package br.com.alura.case_tecnico.entity.user;
 
+import br.com.alura.case_tecnico.dto.RegisterUserDTO;
 import br.com.alura.case_tecnico.entity.role.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,8 +10,6 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
-@AllArgsConstructor
-@NoArgsConstructor
 public class User {
 
     @Id
@@ -33,6 +32,18 @@ public class User {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
+
+    public User(Integer id, String username, String email, String password, LocalDate createdAt, Role role) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.createdAt = createdAt;
+        this.role = role;
+    }
+
+    public User() {
+    }
 
     public Integer getId() {
         return id;

@@ -4,6 +4,8 @@ import br.com.alura.case_tecnico.dto.LoginDTO;
 import br.com.alura.case_tecnico.dto.RegisterUserDTO;
 import br.com.alura.case_tecnico.entity.role.Role;
 import br.com.alura.case_tecnico.entity.user.User;
+import br.com.alura.case_tecnico.exception.UsernameAlreadyTakenException;
+import br.com.alura.case_tecnico.exception.UserNotFoundException;
 import br.com.alura.case_tecnico.repository.UserRepository;
 import br.com.alura.case_tecnico.security.TokenService;
 import jakarta.validation.Valid;
@@ -50,10 +52,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO body) {
-        // TODO: criar exception personalizada
         User user = this.userRepository
                 .findByEmail(body.email())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(UserNotFoundException::new);
 
         if (passwordEncoder.matches(body.password(), user.getPassword())) {
             String token = this.tokenService.generateToken(user);
@@ -68,7 +69,7 @@ public class AuthController {
         Optional<User> user = this.userRepository.findByUsername(body.username());
 
         if (user.isPresent()) {
-            return new ResponseEntity<>("Username already exists", HttpStatus.BAD_REQUEST);
+            throw new UsernameAlreadyTakenException();
         }
 
         Integer roleId = ROLE_IDS.get(body.role());
