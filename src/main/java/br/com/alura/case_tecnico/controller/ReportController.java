@@ -15,17 +15,14 @@ import java.util.List;
 @RequestMapping("/report")
 public class ReportController {
 
-    @Autowired
-    private ReportService reportService;
+    private final ReportService reportService;
 
+    @Autowired
     public ReportController(ReportService reportService) {
         this.reportService = reportService;
     }
 
-    public ReportController() {
-    }
-
-    @GetMapping("/listReport")
+    @GetMapping("/list-report")
     public ResponseEntity<List<CourseNpsReport>> getNPSReport() {
         List<CourseNpsReport> reports = this.reportService.getNPSReport();
         return new ResponseEntity<>(reports, HttpStatus.OK);

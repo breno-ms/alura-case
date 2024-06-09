@@ -2,6 +2,7 @@ package br.com.alura.case_tecnico.service;
 
 import br.com.alura.case_tecnico.dto.UserResponseDTO;
 import br.com.alura.case_tecnico.entity.user.User;
+import br.com.alura.case_tecnico.exception.UserNotFoundException;
 import br.com.alura.case_tecnico.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import java.util.Optional;
 public class UserService {
 
     @Autowired
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -23,19 +24,26 @@ public class UserService {
     public List<UserResponseDTO> findAll() {
         List<User> users = this.userRepository.findAll();
         List<UserResponseDTO> usersOutDto = new ArrayList<>();
+
         for (User user : users) {
-            usersOutDto.add(new UserResponseDTO(user.getUsername(), user.getEmail(), user.getRole().getRoleName()));
+            usersOutDto.add(new UserResponseDTO(user));
         }
+
         return usersOutDto;
     }
 
-    public UserResponseDTO findByUsername(String username) throws Exception {
-        User user = this.userRepository.findByUsername(username).orElseThrow(() -> new Exception("User not found"));
-        return new UserResponseDTO(user.getUsername(), user.getEmail(), user.getRole().getRoleName());
+    public UserResponseDTO findByUsername(String username) throws UserNotFoundException {
+        User user = this.userRepository
+                .findByUsername(username)
+                .orElseThrow(UserNotFoundException::new);
+
+        return new UserResponseDTO(user);
     }
 
-    public User findByEmailAndUsername(String email, String username) throws Exception {
-        return this.userRepository.findByEmailAndUsername(email, username).orElseThrow(() -> new Exception("User not found"));
+    public User findByEmailAndUsername(String email, String username) throws UserNotFoundException {
+        return this.userRepository
+                .findByEmailAndUsername(email, username)
+                .orElseThrow(UserNotFoundException::new);
     }
 
 }

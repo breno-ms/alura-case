@@ -1,9 +1,11 @@
 package br.com.alura.case_tecnico.service;
 
 import br.com.alura.case_tecnico.dto.EnrollmentRequestDTO;
+import br.com.alura.case_tecnico.dto.EnrollmentResponseDTO;
 import br.com.alura.case_tecnico.entity.course.Course;
 import br.com.alura.case_tecnico.entity.enrollment.Enrollment;
 import br.com.alura.case_tecnico.entity.user.User;
+import br.com.alura.case_tecnico.exception.*;
 import br.com.alura.case_tecnico.repository.CourseRepository;
 import br.com.alura.case_tecnico.repository.EnrollmentRepository;
 import br.com.alura.case_tecnico.repository.UserRepository;
@@ -13,57 +15,63 @@ import org.springframework.stereotype.Service;
 @Service
 public class EnrollmentService {
 
-    @Autowired
     private final EnrollmentRepository enrollmentRepository;
-
-    @Autowired
     private final UserRepository userRepository;
-
-    @Autowired
     private final CourseRepository courseRepository;
 
+    @Autowired
     public EnrollmentService(EnrollmentRepository enrollmentRepository, UserRepository userRepository, CourseRepository courseRepository) {
         this.enrollmentRepository = enrollmentRepository;
         this.userRepository = userRepository;
         this.courseRepository = courseRepository;
     }
 
-    public boolean createEnrollment(EnrollmentRequestDTO enrollmentRequestDTO) throws Exception {
-        // TODO: criar exception personalizada
-        User user = this.userRepository
-                .findByUsername(enrollmentRequestDTO.username())
-                .orElseThrow(() -> new Exception("User not found"));
+    public EnrollmentResponseDTO createEnrollment(EnrollmentRequestDTO enrollmentRequestDTO) throws Exception {
+        User user = findUserByUsername(enrollmentRequestDTO.username());
+        Course course = findCourseByCode(enrollmentRequestDTO.courseCode());
 
-        // TODO: criar exception personalizada
-        Course course = this.courseRepository
-                .findByCode(enrollmentRequestDTO.courseCode())
-                .orElseThrow(() -> new RuntimeException("Course not found"));
+        validateCourseIsActive(course);
+        validateUserNotEnrolledInCourse(user.getId(), course.getCode());
 
-        boolean isCourseActive = this.isCourseActive(course.getCode());
-        boolean isUserNotEnrolledInCourse = this.isUserNotEnrolledInCourse(user.getId(), course.getCode());
+        Enrollment enrollment = new Enrollment(user, course);
+        EnrollmentResponseDTO enrollmentResponseDTO = new EnrollmentResponseDTO(
+                course.getCode(),
+                course.getInstructor().getUsername(),
+                enrollmentRequestDTO.username());
 
-        if (isCourseActive && isUserNotEnrolledInCourse) {
-            Enrollment enrollment = new Enrollment(user, course);
-            this.enrollmentRepository.save(enrollment);
-            return true;
-        }
+        this.enrollmentRepository.save(enrollment);
 
-        return false;
+        return enrollmentResponseDTO;
     }
 
-    public boolean isCourseActive(String courseCode) {
-        Course course = this.courseRepository.findByCode(courseCode).orElseThrow();
-        return course.getStatus() == 1;
+    private User findUserByUsername(String username) throws UserNotFoundException {
+        return this.userRepository
+                .findByUsername(username)
+                .orElseThrow(UserNotFoundException::new);
     }
 
-    public boolean isUserNotEnrolledInCourse(Integer userId, String courseCode) {
-        return !enrollmentRepository.existsByUserIdAndCourseCode(userId, courseCode);
+    private Course findCourseByCode(String courseCode) throws CourseNotFoundException {
+        return this.courseRepository
+                .findByCode(courseCode)
+                .orElseThrow(CourseNotFoundException::new);
     }
 
-    public Enrollment findById(Integer enrollmentId) throws Exception {
+    public Enrollment findById(Integer enrollmentId) throws EnrollmentNotFoundException {
         return this.enrollmentRepository
                 .findById(enrollmentId)
-                .orElseThrow(() -> new Exception("Enrollment not found"));
+                .orElseThrow(EnrollmentNotFoundException::new);
+    }
+
+    private void validateCourseIsActive(Course course) throws CourseIsInactiveException {
+        if (course.getStatus() != 1) {
+            throw new CourseIsInactiveException();
+        }
+    }
+
+    private void validateUserNotEnrolledInCourse(Integer userId, String courseCode) throws UserAlreadyEnrolledInCourseException {
+        if (this.enrollmentRepository.existsByUserIdAndCourseCode(userId, courseCode)) {
+            throw new UserAlreadyEnrolledInCourseException();
+        }
     }
 
 }

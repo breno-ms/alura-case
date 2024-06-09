@@ -24,14 +24,14 @@ import java.util.stream.Collectors;
 @RequestMapping("/course")
 public class CourseController {
 
-    @Autowired
     private final CourseService courseService;
 
+    @Autowired
     public CourseController(CourseService courseService) {
         this.courseService = courseService;
     }
 
-    @GetMapping("/findAllOrByStatus")
+    @GetMapping("/find-all-or-by-status")
     public ResponseEntity<PageDTO<CourseResponseDTO>> findAllOrByStatus(
             @RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
@@ -39,49 +39,21 @@ public class CourseController {
             @RequestParam(required = false) Byte status) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
-        Page<Course> courses = courseService.findAllOrByStatus(status, pageable);
-
-        List<CourseResponseDTO> courseDTOs = courses.getContent().stream()
-                .map(course ->
-                        new CourseResponseDTO(
-                        course.getCode(),
-                        course.getCourseName(),
-                        new InstructorDTO(course.getInstructor().getUsername(), course.getInstructor().getEmail()),
-                        course.getDescription(),
-                        course.getStatus(),
-                        course.getCreatedAt(),
-                        course.getInactivatedAt()))
-                .collect(Collectors.toList());
-
-        PageDTO<CourseResponseDTO> pageDTO = new PageDTO<>(
-                courseDTOs,
-                courses.getNumber(),
-                courses.getSize(),
-                courses.getTotalElements(),
-                courses.getTotalPages()
-        );
+        PageDTO<CourseResponseDTO> pageDTO = courseService.findAllOrByStatus(status, pageable);
 
         return new ResponseEntity<>(pageDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/createCourse")
-    public ResponseEntity<?> createCourse(@RequestBody @Valid CourseRequestDTO body) {
-        try {
-            this.courseService.createCourse(body);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+    @PostMapping("/create-course")
+    public ResponseEntity<CourseResponseDTO> createCourse(@RequestBody @Valid CourseRequestDTO body) throws Exception {
+        CourseResponseDTO courseResponseDTO = this.courseService.createCourse(body);
+        return new ResponseEntity<>(courseResponseDTO, HttpStatus.OK);
     }
 
-    @PutMapping("/deactivateCourse/{courseCode}")
-    public ResponseEntity<?> deactivateCourse(@PathVariable @Size(max = 10, message = "Code must be at most 10 characters") String courseCode) {
-        try {
-            this.courseService.deactivateCourseByCode(courseCode);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+    @PutMapping("/deactivate-course/{courseCode}")
+    public ResponseEntity<CourseResponseDTO> deactivateCourse(@PathVariable @Size(max = 10, message = "Code must be at most 10 characters") String courseCode) throws Exception {
+        CourseResponseDTO courseResponseDTO = this.courseService.deactivateCourseByCode(courseCode);
+        return new ResponseEntity<>(courseResponseDTO, HttpStatus.OK);
     }
 
 }

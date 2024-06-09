@@ -2,6 +2,7 @@ package br.com.alura.case_tecnico.controller;
 
 import br.com.alura.case_tecnico.dto.UserResponseDTO;
 import br.com.alura.case_tecnico.dto.UsernameRequestDTO;
+import br.com.alura.case_tecnico.exception.UserNotFoundException;
 import br.com.alura.case_tecnico.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,18 +16,22 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @GetMapping("/findAll")
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping("/find-all")
     public ResponseEntity<List<UserResponseDTO>> findAll() {
         List<UserResponseDTO> users = userService.findAll();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @PostMapping("/findByUsername")
-    public ResponseEntity<?> findByUsername(@RequestBody UsernameRequestDTO username) throws Exception {
-        UserResponseDTO user = userService.findByUsername(username.username());
+    @GetMapping("/find-by-username/{username}")
+    public ResponseEntity<UserResponseDTO> findByUsername(@PathVariable String username) throws UserNotFoundException {
+        UserResponseDTO user = userService.findByUsername(username);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 

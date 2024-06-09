@@ -25,7 +25,7 @@ public class ReportService {
 
     private double calculateNPS(Double averageRating) {
         if (averageRating == null) return 0;
-        return (averageRating - 5) * 20; // Simplified NPS calculation for example purposes
+        return (averageRating - 5) * 20;
     }
 
 }
