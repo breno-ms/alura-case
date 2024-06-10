@@ -20,7 +20,7 @@ public class FeedbackController {
         this.feedbackService = feedbackService;
     }
 
-    @PostMapping("/createFeedback")
+    @PostMapping("/create-feedback")
     public ResponseEntity<String> createFeedback(@RequestBody @Valid FeedbackRequestDTO body) throws Exception {
         boolean wasFeedbackCreated = this.feedbackService.createFeedback(body);
 
