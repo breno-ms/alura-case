@@ -2,9 +2,9 @@ package br.com.alura.case_tecnico.service;
 
 import br.com.alura.case_tecnico.dto.EnrollmentRequestDTO;
 import br.com.alura.case_tecnico.dto.EnrollmentResponseDTO;
-import br.com.alura.case_tecnico.entity.course.Course;
-import br.com.alura.case_tecnico.entity.enrollment.Enrollment;
-import br.com.alura.case_tecnico.entity.user.User;
+import br.com.alura.case_tecnico.entity.Course;
+import br.com.alura.case_tecnico.entity.Enrollment;
+import br.com.alura.case_tecnico.entity.User;
 import br.com.alura.case_tecnico.exception.*;
 import br.com.alura.case_tecnico.repository.CourseRepository;
 import br.com.alura.case_tecnico.repository.EnrollmentRepository;
@@ -34,10 +34,7 @@ public class EnrollmentService {
         validateUserNotEnrolledInCourse(user.getId(), course.getCode());
 
         Enrollment enrollment = new Enrollment(user, course);
-        EnrollmentResponseDTO enrollmentResponseDTO = new EnrollmentResponseDTO(
-                course.getCode(),
-                course.getInstructor().getUsername(),
-                enrollmentRequestDTO.username());
+        EnrollmentResponseDTO enrollmentResponseDTO = enrollment.convertToDto();
 
         this.enrollmentRepository.save(enrollment);
 

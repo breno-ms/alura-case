@@ -65,4 +65,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(restErrorMessage);
     }
 
+    @ExceptionHandler(RoleNotFoundException.class)
+    private ResponseEntity<RestErrorMessage> roleNotFoundHandler(RoleNotFoundException roleNotFoundException) {
+        RestErrorMessage restErrorMessage = new RestErrorMessage(HttpStatus.BAD_REQUEST, roleNotFoundException.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(restErrorMessage);
+    }
+
 }

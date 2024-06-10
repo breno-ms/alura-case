@@ -1,12 +1,13 @@
-package br.com.alura.case_tecnico.entity.user;
+package br.com.alura.case_tecnico.entity;
 
+import br.com.alura.case_tecnico.dto.InstructorDTO;
 import br.com.alura.case_tecnico.dto.RegisterUserDTO;
-import br.com.alura.case_tecnico.entity.role.Role;
+import br.com.alura.case_tecnico.dto.UserResponseDTO;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
@@ -39,6 +40,14 @@ public class User {
         this.email = email;
         this.password = password;
         this.createdAt = createdAt;
+        this.role = role;
+    }
+
+    public User(RegisterUserDTO registerUserDTO, PasswordEncoder passwordEncoder, Role role) {
+        this.username = registerUserDTO.username();
+        this.email = registerUserDTO.email();
+        this.password = passwordEncoder.encode(registerUserDTO.password());
+        this.createdAt = LocalDate.now();
         this.role = role;
     }
 
@@ -87,6 +96,25 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public InstructorDTO convertToInstructorDto() {
+        return new InstructorDTO(
+                this.getUsername(),
+                this.getEmail()
+        );
+    }
+
+    public UserResponseDTO convertToDto() {
+        return new UserResponseDTO(this.username, this.email, this.role.getRoleName());
+    }
+
+    public boolean isInstructor() {
+        return Objects.equals(this.role.getRoleName(), "ROLE_INSTRUCTOR");
+    }
+
+    public boolean isStudent() {
+        return Objects.equals(this.role.getRoleName(), "ROLE_STUDENT");
     }
 
 }

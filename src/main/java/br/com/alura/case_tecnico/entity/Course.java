@@ -1,6 +1,7 @@
-package br.com.alura.case_tecnico.entity.course;
+package br.com.alura.case_tecnico.entity;
 
-import br.com.alura.case_tecnico.entity.user.User;
+import br.com.alura.case_tecnico.dto.CourseRequestDTO;
+import br.com.alura.case_tecnico.dto.CourseResponseDTO;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -32,6 +33,18 @@ public class Course {
 
     @Column(name = "inactivated_at")
     private LocalDate inactivatedAt;
+
+    public Course(CourseRequestDTO courseRequestDTO, User instructor) {
+        this.courseName = courseRequestDTO.courseName();
+        this.code = courseRequestDTO.courseCode();
+        this.description = courseRequestDTO.description();
+        this.status = (byte) 1;
+        this.instructor = instructor;
+        this.createdAt = LocalDate.now();
+        this.inactivatedAt = null;
+    }
+
+    public Course() {}
 
     public String getCode() {
         return code;
@@ -87,6 +100,18 @@ public class Course {
 
     public void setInactivatedAt(LocalDate inactivatedAt) {
         this.inactivatedAt = inactivatedAt;
+    }
+
+    public CourseResponseDTO convertToDto() {
+        return new CourseResponseDTO(
+                this.getCode(),
+                this.getCourseName(),
+                this.getInstructor().convertToInstructorDto(),
+                this.getDescription(),
+                this.getStatus(),
+                this.getCreatedAt(),
+                this.getInactivatedAt()
+        );
     }
 
     @Override

@@ -1,6 +1,6 @@
 package br.com.alura.case_tecnico.dto;
 
-import br.com.alura.case_tecnico.entity.user.User;
+import br.com.alura.case_tecnico.entity.User;
 
 public class UserResponseDTO {
 
@@ -12,6 +12,12 @@ public class UserResponseDTO {
         this.username = user.getUsername();
         this.email = user.getEmail();
         this.role = user.getRole().getRoleName();
+    }
+
+    public UserResponseDTO(String username, String email, String role) {
+        this.username = username;
+        this.email = email;
+        this.role = role;
     }
 
     public String getUsername() {

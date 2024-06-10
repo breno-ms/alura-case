@@ -1,7 +1,6 @@
-package br.com.alura.case_tecnico.entity.enrollment;
+package br.com.alura.case_tecnico.entity;
 
-import br.com.alura.case_tecnico.entity.course.Course;
-import br.com.alura.case_tecnico.entity.user.User;
+import br.com.alura.case_tecnico.dto.EnrollmentResponseDTO;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -27,12 +26,6 @@ public class Enrollment {
     @Column(name = "enrollment_date")
     private LocalDate enrollmentDate;
 
-    public Enrollment(User user, Course course) {
-        this.user = user;
-        this.course = course;
-        this.enrollmentDate = LocalDate.now();
-    }
-
     public Enrollment(Integer id, User user, Course course, LocalDate enrollmentDate) {
         this.id = id;
         this.user = user;
@@ -40,11 +33,24 @@ public class Enrollment {
         this.enrollmentDate = enrollmentDate;
     }
 
+    public Enrollment(User user, Course course) {
+        this.user = user;
+        this.course = course;
+        this.enrollmentDate = LocalDate.now();
+    }
+
     public Enrollment() {
     }
 
     public User getUser() {
         return user;
+    }
+
+    public EnrollmentResponseDTO convertToDto() {
+        return new EnrollmentResponseDTO(
+                this.course.getCode(),
+                this.course.getInstructor().getUsername(),
+                this.user.getUsername());
     }
 
     @Override
