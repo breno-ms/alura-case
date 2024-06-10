@@ -5,7 +5,6 @@ import br.com.alura.case_tecnico.dto.CourseResponseDTO;
 import br.com.alura.case_tecnico.service.CourseService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

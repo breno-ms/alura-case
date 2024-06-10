@@ -1,7 +1,9 @@
 package br.com.alura.case_tecnico.dto;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 
+@Valid
 public record CourseRequestDTO (
         @NotBlank(message = "Course name cannot be blank")
         @NotNull(message = "Course name cannot be null")

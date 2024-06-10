@@ -1,7 +1,9 @@
 package br.com.alura.case_tecnico.entity;
 
 import br.com.alura.case_tecnico.dto.InstructorDTO;
+import br.com.alura.case_tecnico.dto.RegisterUserDTO;
 import br.com.alura.case_tecnico.dto.UserResponseDTO;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -38,6 +40,14 @@ public class User {
         this.email = email;
         this.password = password;
         this.createdAt = createdAt;
+        this.role = role;
+    }
+
+    public User(RegisterUserDTO registerUserDTO, PasswordEncoder passwordEncoder, Role role) {
+        this.username = registerUserDTO.username();
+        this.email = registerUserDTO.email();
+        this.password = passwordEncoder.encode(registerUserDTO.password());
+        this.createdAt = LocalDate.now();
         this.role = role;
     }
 

@@ -28,9 +28,6 @@ public class Feedback {
     @Column(name = "created_at")
     private LocalDate createdAt;
 
-    public Feedback() {
-    }
-
     public Feedback(Integer id, Enrollment enrollment, Integer rating, String comment, LocalDate createdAt) {
         this.id = id;
         this.enrollment = enrollment;
@@ -44,6 +41,9 @@ public class Feedback {
         this.rating = feedbackRequestDTO.rating();
         this.comment = feedbackRequestDTO.comment();
         this.createdAt = LocalDate.now();
+    }
+
+    public Feedback() {
     }
 
     @Override
