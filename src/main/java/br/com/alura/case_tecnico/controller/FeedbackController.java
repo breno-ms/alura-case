@@ -17,7 +17,6 @@ import java.time.LocalDate;
 @RequestMapping("/feedback")
 public class FeedbackController {
 
-    @Autowired
     private final FeedbackService feedbackService;
 
     public FeedbackController(FeedbackService feedbackService) {

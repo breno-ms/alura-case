@@ -1,6 +1,6 @@
 package br.com.alura.case_tecnico.repository;
 
-import br.com.alura.case_tecnico.entity.course.Course;
+import br.com.alura.case_tecnico.entity.Course;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

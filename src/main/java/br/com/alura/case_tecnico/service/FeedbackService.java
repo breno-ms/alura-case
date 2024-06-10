@@ -1,8 +1,8 @@
 package br.com.alura.case_tecnico.service;
 
 import br.com.alura.case_tecnico.dto.FeedbackRequestDTO;
-import br.com.alura.case_tecnico.entity.enrollment.Enrollment;
-import br.com.alura.case_tecnico.entity.feedback.Feedback;
+import br.com.alura.case_tecnico.entity.Enrollment;
+import br.com.alura.case_tecnico.entity.Feedback;
 import br.com.alura.case_tecnico.repository.FeedbackRepository;
 import br.com.alura.case_tecnico.utils.EmailSender;
 import org.springframework.beans.factory.annotation.Autowired;

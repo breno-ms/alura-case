@@ -2,8 +2,8 @@ package br.com.alura.case_tecnico.controller;
 
 import br.com.alura.case_tecnico.dto.LoginDTO;
 import br.com.alura.case_tecnico.dto.RegisterUserDTO;
-import br.com.alura.case_tecnico.entity.role.Role;
-import br.com.alura.case_tecnico.entity.user.User;
+import br.com.alura.case_tecnico.entity.Role;
+import br.com.alura.case_tecnico.entity.User;
 import br.com.alura.case_tecnico.exception.UsernameAlreadyTakenException;
 import br.com.alura.case_tecnico.exception.UserNotFoundException;
 import br.com.alura.case_tecnico.repository.UserRepository;
@@ -27,13 +27,8 @@ import java.util.Optional;
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
     private final UserRepository userRepository;
-
-    @Autowired
     private final PasswordEncoder passwordEncoder;
-
-    @Autowired
     private final TokenService tokenService;
 
     private static final Map<String, Integer> ROLE_IDS = new HashMap<>();
@@ -51,7 +46,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginDTO body) {
+    public ResponseEntity<String> login(@RequestBody LoginDTO body) {
         User user = this.userRepository
                 .findByEmail(body.email())
                 .orElseThrow(UserNotFoundException::new);
@@ -65,7 +60,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody @Valid RegisterUserDTO body) {
+    public ResponseEntity<String> register(@RequestBody @Valid RegisterUserDTO body) {
         Optional<User> user = this.userRepository.findByUsername(body.username());
 
         if (user.isPresent()) {

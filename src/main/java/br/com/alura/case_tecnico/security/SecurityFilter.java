@@ -1,6 +1,6 @@
 package br.com.alura.case_tecnico.security;
 
-import br.com.alura.case_tecnico.entity.user.User;
+import br.com.alura.case_tecnico.entity.User;
 import br.com.alura.case_tecnico.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

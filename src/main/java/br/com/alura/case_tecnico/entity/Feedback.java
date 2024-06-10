@@ -1,7 +1,6 @@
-package br.com.alura.case_tecnico.entity.feedback;
+package br.com.alura.case_tecnico.entity;
 
 import br.com.alura.case_tecnico.dto.FeedbackRequestDTO;
-import br.com.alura.case_tecnico.entity.enrollment.Enrollment;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;

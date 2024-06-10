@@ -94,6 +94,9 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>
+			alura-case
+		</finalName>
 	</build>
 
 </project>

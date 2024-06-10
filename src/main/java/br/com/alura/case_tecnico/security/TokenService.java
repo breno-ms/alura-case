@@ -1,6 +1,6 @@
 package br.com.alura.case_tecnico.security;
 
-import br.com.alura.case_tecnico.entity.user.User;
+import br.com.alura.case_tecnico.entity.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;

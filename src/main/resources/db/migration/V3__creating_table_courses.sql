@@ -5,7 +5,7 @@ CREATE TABLE COURSES (
     course_name VARCHAR(100) NOT NULL,
     instructor_id INT NOT NULL,
     description VARCHAR(255) NOT NULL,
-    status TINYINT(1) NOT NULL,
+    status BOOLEAN NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     inactivated_at TIMESTAMP DEFAULT NULL,
     FOREIGN KEY (instructor_id) REFERENCES USERS (id)

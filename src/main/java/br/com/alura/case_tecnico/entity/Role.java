@@ -1,10 +1,9 @@
-package br.com.alura.case_tecnico.entity.role;
+package br.com.alura.case_tecnico.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,8 +12,6 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "roles")
-@NoArgsConstructor
-@Getter
 public class Role implements GrantedAuthority {
 
     @Id
@@ -26,6 +23,25 @@ public class Role implements GrantedAuthority {
 
     public Role(Integer id, String roleName) {
         this.id = id;
+        this.roleName = roleName;
+    }
+
+    public Role() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getRoleName() {
+        return this.roleName;
+    }
+
+    public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
 
@@ -45,10 +61,6 @@ public class Role implements GrantedAuthority {
     @Override
     public int hashCode() {
         return Objects.hash(id, roleName);
-    }
-
-    public String getRoleName() {
-        return this.roleName;
     }
 
 }

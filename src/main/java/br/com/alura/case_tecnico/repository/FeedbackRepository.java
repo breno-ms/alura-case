@@ -1,6 +1,6 @@
 package br.com.alura.case_tecnico.repository;
 
-import br.com.alura.case_tecnico.entity.feedback.Feedback;
+import br.com.alura.case_tecnico.entity.Feedback;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

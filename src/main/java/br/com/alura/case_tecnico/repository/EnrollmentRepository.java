@@ -1,6 +1,6 @@
 package br.com.alura.case_tecnico.repository;
 
-import br.com.alura.case_tecnico.entity.enrollment.Enrollment;
+import br.com.alura.case_tecnico.entity.Enrollment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
