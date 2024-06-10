@@ -32,12 +32,12 @@ Don't forget to use a valid account to use Gmail SMTP.
 ```http
   POST /auth/register
 ```
-| Parameter   | Type       |
-| :---------- | :--------- |
+| Parameter  | Type       |
+|:-----------| :--------- |
 | `username` | `String` |
-| `email` | `String` |
+| `email`    | `String` |
 | `password` | `String` |
-| `email` | `String` |
+| `role`     | `String` |
 
 ##### Login:
 ```http
