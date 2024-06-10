@@ -43,10 +43,10 @@ Don't forget to use a valid account to use Gmail SMTP.
 ```http
   POST /auth/login
 ```
-| Parameter   | Type       |
-| :---------- | :--------- |
+| Parameter       | Type       |
+|:----------------| :--------- |
 | `username`      | `String` |
-| `passoword`      | `String` |
+| `password`      | `String` |
 
 ### Users:
 ##### Find all users:
